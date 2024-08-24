@@ -12,7 +12,7 @@ This project is a Python script that encrypts messages using the Vigenère ciphe
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-username/vigenere-cipher-encryptor.git
+   git clone https://github.com/zappedxd/vigenere-cipher-encryptor.git
    ```
    Or download the script directly from the repository.
 

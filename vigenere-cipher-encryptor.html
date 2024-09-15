@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vigenère Cipher Encryptor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 100px auto;
+            background-color: #fff;
+            padding: 40px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input[type="text"], input[type="submit"] {
+            padding: 12px;
+            font-size: 1.1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #5a67d8;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #434190;
+        }
+
+        .output {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f1f1f1;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        footer a {
+            color: #5a67d8;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Vigenère Cipher Encryptor</h1>
+        <form id="encryptForm">
+            <label for="plaintext">Enter Plaintext:</label>
+            <input type="text" id="plaintext" name="plaintext" placeholder="Type your message here..." required>
+
+            <label for="keyword">Enter Keyword:</label>
+            <input type="text" id="keyword" name="keyword" placeholder="Type your keyword here..." required>
+
+            <input type="submit" value="Encrypt Message">
+        </form>
+
+        <div class="output" id="output"></div>
+    </div>
+
+    <footer>
+        <p>Vigenère Cipher Encryptor by <a href="https://github.com/your-username" target="_blank">Your Name</a></p>
+    </footer>
+
+    <script>
+        function vigenereEncrypt(plaintext, keyword) {
+            let encryptedText = '';
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            plaintext = plaintext.toUpperCase();
+            keyword = keyword.toUpperCase();
+            let keywordIndex = 0;
+
+            for (let i = 0; i < plaintext.length; i++) {
+                const char = plaintext[i];
+
+                if (alphabet.includes(char)) {
+                    const plainCharIndex = alphabet.indexOf(char);
+                    const keyCharIndex = alphabet.indexOf(keyword[keywordIndex % keyword.length]);
+                    const encryptedCharIndex = (plainCharIndex + keyCharIndex) % 26;
+                    encryptedText += alphabet[encryptedCharIndex];
+                    keywordIndex++;
+                } else {
+                    encryptedText += char; // Non-alphabetic characters are added directly
+                }
+            }
+            return encryptedText;
+        }
+
+        document.getElementById('encryptForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const plaintext = document.getElementById('plaintext').value;
+            const keyword = document.getElementById('keyword').value;
+
+            if (plaintext && keyword) {
+                const encryptedMessage = vigenereEncrypt(plaintext, keyword);
+                document.getElementById('output').innerHTML = `<strong>Encrypted Message:</strong> ${encryptedMessage}`;
+            } else {
+                document.getElementById('output').innerHTML = '<strong>Please enter both plaintext and keyword!</strong>';
+            }
+        });
+    </script>
+
+</body>
+</html>
